@@ -42,12 +42,19 @@
 
             <div class="col-md-4 ms-auto text-md-end mt-3">
                 <a href="{{ route('login') }}" class="btn btn-primary btn-sm btn-custom">Entrar com seu perfil</a>
-                <a class="btn btn-outline-primary btn-sm btn-custom">Cadastre-se</a>
+                <div class="dropdown d-inline">
+                    <button class="btn btn-outline-primary btn-sm btn-custom dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                        Cadastre-se
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="{{ route('auth.cadastroOrganizador') }}">Organizador</a></li>
+                        <li><a class="dropdown-item" href="{{ route('auth.cadastroParticipante') }}">Participante</a></li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Resto do conteúdo da página -->
     <div class="container">
         <h2 class="mt-5">Bem-vindo à página de eventos!</h2>
         <p>Conheça eventos que organizamos.</p>
@@ -69,9 +76,9 @@
                 </div>
             </div>
             <div class="card ms-4" style="width: 18rem;">
-                <img class="card-img-top" src="images/events/formatura.webp" alt="Card image cap">
+                <img class="card-img-top" src="images/events/taca.webp" alt="Card image cap">
                 <div class="card-body">
-                    <h5 class="card-title">Graduação</h5>
+                    <h5 class="card-title">Campeonato Esportes</h5>
                     <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
                     <a href="#" class="btn btn-primary">Go somewhere</a>
                 </div>

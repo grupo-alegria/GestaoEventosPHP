@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('organizadors', function (Blueprint $table) {
             $table->id();
             $table->string('nome');
-            $table->string('cnpj')->unique();
-            $table->string('cpf')->unique();
+            $table->string('cnpj')->nullable()->unique();
+            $table->string('cpf')->nullable()->unique();
             $table->string('email')->unique();
             $table->string('senha');
             $table->timestamps();

@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 
-class Organizador extends Model
+class Organizador extends Authenticatable
 {
     use HasFactory;
+    protected $table = 'organizadors';
+    
     protected $fillable = [
         'nome',
         'cnpj',
