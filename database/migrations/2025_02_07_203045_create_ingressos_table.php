@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('ingressos', function (Blueprint $table) {
             $table->id();
             $table->string('tipo');
-            $table->date('valor');
+            $table->decimal('valor');
             $table->foreignId('participante_id')->constrained()->onDelete('cascade');
             $table->foreignId('evento_id')->constrained()->onDelete('cascade');
             $table->timestamps();

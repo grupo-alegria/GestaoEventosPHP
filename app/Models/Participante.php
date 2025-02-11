@@ -11,11 +11,14 @@ class Participante extends Authenticatable
     protected $fillable = [
         'nome',
         'cpf',
-        'email',
         'dataNasc',
+        'email',        
         'senha'
     ];
 
+    protected $hidden = [
+        'senha', 'remember_token',
+    ];
 
     public function ingresso()
     {

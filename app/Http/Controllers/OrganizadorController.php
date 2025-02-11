@@ -12,7 +12,7 @@ class OrganizadorController extends Controller
 {
     public function index()
     {
-        return view('auth.cadastroOrganizador');
+        return view('organizador.auth.cadastroOrganizador');
     }
 
     public function home()
@@ -25,7 +25,7 @@ class OrganizadorController extends Controller
 
         $eventos = Evento::where('organizador_id', $organizador->id)->get();
 
-        return view('home.homeOrganizador', compact('organizador', 'eventos'));
+        return view('organizador.home.homeOrganizador', compact('organizador', 'eventos'));
     }
 
     public function store(Request $request)

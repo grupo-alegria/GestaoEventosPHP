@@ -14,8 +14,8 @@ return [
     */
 
     'defaults' => [
-        'guard' => 'web',
-        'passwords' => 'users',
+        'guard' => 'web', // Guard padrão (pode ser 'web' ou 'participante' ou 'organizador')
+        'passwords' => 'users', // Password reset padrão
     ],
 
     /*
@@ -38,37 +38,90 @@ return [
     'guards' => [
         'web' => [
             'driver' => 'session',
-            'provider' => 'organizadors',
+            'provider' => 'organizadors', // Provider para o organizador
         ],
-            'participant' => [  // Novo guard para o participante
+
+        'participante' => [ // Guard para o participante
             'driver' => 'session',
-            'provider' => 'participantes',  // O provider que você vai criar para o participante
+            'provider' => 'participantes', // Provider para o participante
+        ],
+
+        'organizador' => [ // Guard para o organizador (se necessário)
+            'driver' => 'session',
+            'provider' => 'organizadors', // Provider para o organizador
         ],
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | User Providers
+    |--------------------------------------------------------------------------
+    |
+    | All authentication drivers have a user provider. This defines how the
+    | users are actually retrieved out of your database or other storage
+    | mechanisms used by this application to persist your user's data.
+    |
+    | If you have multiple user tables or models you may configure multiple
+    | sources which represent each model / table. These sources may then
+    | be assigned to any extra authentication guards you have defined.
+    |
+    | Supported: "database", "eloquent"
+    |
+    */
+
     'providers' => [
-        'organizadors' => [
+        'organizadors' => [ // Provider para o organizador
             'driver' => 'eloquent',
-            'model' => App\Models\Organizador::class,
-        ],
-            'participantes' => [  // Novo provider para o participante
-            'driver' => 'eloquent',
-            'model' => App\Models\Participante::class,  // Aqui você deve criar o modelo para o participante
+            'model' => App\Models\Organizador::class, // Model do organizador
         ],
 
-        // 'users' => [
+        'participantes' => [ // Provider para o participante
+            'driver' => 'eloquent',
+            'model' => App\Models\Participante::class, // Model do participante
+        ],
+
+        // 'users' => [ // Exemplo de provider padrão (opcional)
         //     'driver' => 'database',
         //     'table' => 'users',
         // ],
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Resetting Passwords
+    |--------------------------------------------------------------------------
+    |
+    | You may specify multiple password reset configurations if you have more
+    | than one user table or model in the application and you want to have
+    | separate password reset settings based on the specific user types.
+    |
+    | The expire time is the number of minutes that each reset token will be
+    | considered valid. This security feature keeps tokens short-lived so
+    | they have less time to be guessed. You may change this as needed.
+    |
+    */
+
     'passwords' => [
-        'users' => [
-            'provider' => 'users',
+        'organizadors' => [ // Password reset para o organizador
+            'provider' => 'organizadors',
             'table' => 'password_reset_tokens',
             'expire' => 60,
             'throttle' => 60,
         ],
+
+        'participantes' => [ // Password reset para o participante
+            'provider' => 'participantes',
+            'table' => 'password_reset_tokens',
+            'expire' => 60,
+            'throttle' => 60,
+        ],
+
+        // 'users' => [ // Exemplo de password reset padrão (opcional)
+        //     'provider' => 'users',
+        //     'table' => 'password_reset_tokens',
+        //     'expire' => 60,
+        //     'throttle' => 60,
+        // ],
     ],
 
     /*

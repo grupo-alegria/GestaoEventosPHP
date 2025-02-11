@@ -47,8 +47,8 @@
                         Cadastre-se
                     </button>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="{{ route('auth.cadastroOrganizador') }}">Organizador</a></li>
-                        <li><a class="dropdown-item" href="{{ route('auth.cadastroParticipante') }}">Participante</a></li>
+                        <li><a class="dropdown-item" href="{{ route('organizador.auth.cadastroOrganizador') }}">Organizador</a></li>
+                        <li><a class="dropdown-item" href="{{ route('participante.auth.cadastroParticipante') }}">Participante</a></li>
                     </ul>
                 </div>
             </div>
