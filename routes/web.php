@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\OrganizadorController;
 use App\Http\Controllers\ParticipanteController;
+use Illuminate\Support\Facades\Auth;
 
 //Pagina Inicial
 Route::get('/', function () { return view('welcome'); })->name('home');
@@ -27,3 +28,15 @@ Route::post('/auth/participante', [ParticipanteController::class, 'store'])->nam
 Route::middleware('auth:participante')->group(function () {
     Route::get('/participante/home', [ParticipanteController::class, 'home'])->name('participante.home');
 });
+
+//Edit Participante
+Route::middleware('auth:participante')->group(function () {
+    Route::get('/participante/{id}/edit', [ParticipanteController::class, 'edit'])->name('participante.edit');
+    Route::put('/participante/update/{id}', [ParticipanteController::class, 'update'])->name('participante.update');
+});
+
+//Logout Participante
+Route::post('/logout', function () {
+    Auth::logout();
+    return redirect('/'); // Redireciona para a página inicial após logout
+})->name('logout');

@@ -50,4 +50,45 @@ class ParticipanteController extends Controller
 
         return redirect()->route('participante.home')->with('success', 'Cadastro realizado com sucesso!');
     }
+
+    public function edit()
+    {
+        $participante = Auth::guard('participante')->user();
+
+        if (!$participante) {
+            return redirect()->route('login')->with('error', 'Você precisa estar logado para acessar essa página.');
+        }
+        return view('participante.edit.editParticipante', compact('participante'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        // Busca o participante pelo ID
+        $participante = Participante::findOrFail($id);
+
+        // Verifica se o participante autenticado é o mesmo que está sendo atualizado
+        if (Auth::guard('participante')->id() !== $participante->id) {
+            return redirect()->route('participante.home')->with('error', 'Você não tem permissão para atualizar este perfil.');
+        }
+
+        // Validação dos dados
+        $request->validate([
+            'nome' => 'required|min:3',
+            'cpf' => ['nullable', 'regex:/^\d{3}\.\d{3}\.\d{3}-\d{2}$/'],
+            'email' => 'required|email|unique:participantes,email,' . $participante->id,
+            'dataNasc' => 'required|date',
+            'senha' => 'nullable|min:6',
+        ]);
+
+        // Atualiza os dados
+        $participante->update([
+            'nome' => $request->nome,
+            'cpf' => $request->cpf,
+            'email' => $request->email,
+            'dataNasc' => $request->dataNasc,
+            'senha' => $request->senha ? bcrypt($request->senha) : $participante->senha, // Atualiza a senha apenas se for fornecida
+        ]);
+
+        return redirect()->route('participante.home')->with('success', 'Perfil atualizado com sucesso!');
+    }
 }

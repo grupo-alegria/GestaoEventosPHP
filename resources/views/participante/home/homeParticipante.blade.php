@@ -25,6 +25,16 @@
             border-color: #007bff;
             box-shadow: 0 8px 16px rgba(0, 123, 255, 0.2);
         }
+
+        .logout-btn {
+            color: red;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        .logout-btn:hover {
+            background: red;
+            color: white;
+        }
     </style>
 </head>
 
@@ -44,7 +54,13 @@
                         👤 Bem-vindo, {{ $participante->nome }}
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <li><a class="dropdown-item">Editar Perfil</a></li>
+                        <li><a href="{{ route('participante.edit', $participante->id) }}" class="dropdown-item">Editar Perfil</a></li>
+                        <li>
+                            <form action="{{ route('logout') }}" method="POST">
+                                @csrf
+                                <button type="submit" class="dropdown-item logout-btn">Sair</button>
+                            </form>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -77,6 +93,7 @@
             @endforeach
         </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
