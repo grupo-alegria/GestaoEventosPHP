@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editar Participante</title>
+    <title>Editar Organizador</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
@@ -31,28 +31,28 @@
             </div>
             @endif
 
-            <form action="{{ route('participante.update', $participante->id) }}" method="POST">
+            <form action="{{ route('organizador.update', $organizador->id) }}" method="POST">
                 @csrf
                 @method('PUT')
 
                 <div class="mb-3">
                     <label class="form-label fw-semibold">Nome</label>
-                    <input type="text" name="nome" class="form-control rounded-3" value="{{ old('nome', $participante->nome) }}" required minlength="3">
+                    <input type="text" name="nome" class="form-control rounded-3" value="{{ old('nome', $organizador->nome) }}" required minlength="3">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">CNPJ</label>
+                    <input type="text" name="cpf" class="form-control rounded-3" pattern="\d{3}\.\d{3}\.\d{3}-\d{2}" value="{{ old('cnpj', $organizador->cnpj) }}">
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label fw-semibold">CPF</label>
-                    <input type="text" name="cpf" class="form-control rounded-3" pattern="\d{3}\.\d{3}\.\d{3}-\d{2}" value="{{ old('cpf', $participante->cpf) }}">
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label fw-semibold">Data de Nascimento</label>
-                    <input type="date" name="dataNasc" class="form-control rounded-3" value="{{ old('dataNasc', $participante->dataNasc) }}" required>
+                    <input type="text" name="cpf" class="form-control rounded-3" pattern="\d{3}\.\d{3}\.\d{3}-\d{2}" value="{{ old('cpf', $organizador->cpf) }}">
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label fw-semibold">E-mail</label>
-                    <input type="email" name="email" class="form-control rounded-3" value="{{ old('email', $participante->email) }}" required>
+                    <input type="email" name="email" class="form-control rounded-3" value="{{ old('email', $organizador->email) }}" required>
                 </div>
 
                 <div class="mb-3">
@@ -90,7 +90,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <form action="{{ route('participante.destroy', $participante->id) }}" method="POST" style="display: inline;">
+                    <form action="{{ route('organizador.destroy', $organizador->id) }}" method="POST" style="display: inline;">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="btn btn-danger">Excluir Conta</button>

@@ -18,6 +18,10 @@ class Organizador extends Authenticatable
         'senha'
     ];
 
+    protected $hidden = [
+        'senha', 'remember_token', // Oculta a senha e o token
+    ];
+
 
     public function evento()
     {

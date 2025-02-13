@@ -91,4 +91,12 @@ class ParticipanteController extends Controller
 
         return redirect()->route('participante.home')->with('success', 'Perfil atualizado com sucesso!');
     }
+
+    public function destroy($id)
+    {
+        $participante = Participante::findOrFail($id);
+        $participante->delete();
+
+        return redirect()->route('home')->with('success', 'Conta excluída com sucesso.');
+    }
 }
