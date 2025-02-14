@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('cpf')->unique();
             $table->string('email')->unique();
             $table->date('dataNasc');
-            $table->string('senha')->unique();
+            $table->string('senha');
             $table->timestamps();
         });
     }

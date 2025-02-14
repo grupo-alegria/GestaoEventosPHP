@@ -20,6 +20,12 @@ class Participante extends Authenticatable
         'senha', 'remember_token',
     ];
 
+    // Especifica o campo de senha personalizado
+    public function getAuthPassword()
+    {
+        return $this->senha; // Use o campo correto do banco de dados
+    }
+
     public function ingresso()
     {
         return $this -> hasMany(Ingresso::class);

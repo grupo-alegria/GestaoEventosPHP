@@ -24,21 +24,25 @@ class LoginController extends Controller
         ]);
 
         // Credenciais do usuário
-        $credentials = $request->only('email', 'senha');
+        $credentials = [
+            'email' => $request->email,
+            'password' => $request->senha, // Mapeia 'senha' para 'password'
+        ];
 
         // Tenta autenticar o usuário com base no tipo selecionado
         if ($request->tipo === 'organizador') {
             $guard = 'organizador';
         } else {
-            $guard = 'participante';
+            $guard = 'participante'; // Corrigido para 'participante'
         }
 
         if (Auth::guard($guard)->attempt($credentials)) {
             // Autenticação bem-sucedida
-            return redirect()->route($guard . '.home');
+            return redirect()->route($guard . '.home'); // Corrigido o nome da rota
         }
 
         // Autenticação falhou
         return redirect()->route('login')->with('error', 'Credenciais inválidas ou conta não encontrada.');
     }
+
 }

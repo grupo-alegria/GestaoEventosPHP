@@ -22,6 +22,11 @@ class Organizador extends Authenticatable
         'senha', 'remember_token', // Oculta a senha e o token
     ];
 
+    public function getAuthPassword()
+    {
+        return $this->senha; // Retorna o campo correto da senha
+    }
+
 
     public function evento()
     {
