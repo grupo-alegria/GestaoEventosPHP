@@ -7,12 +7,9 @@
     <title>Painel do Participante</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        body {
-            background-color: rgb(255, 255, 255);
-        }
-
         .header {
-            background-color: rgb(238, 186, 130);
+            background-color: rgb(42, 41, 39);
+            color: white;
         }
 
         .card {
@@ -25,6 +22,7 @@
             border-color: #007bff;
             box-shadow: 0 8px 16px rgba(0, 123, 255, 0.2);
         }
+
         .logout-btn {
             color: red;
             transition: background 0.3s, color 0.3s;
@@ -34,10 +32,129 @@
             background: red;
             color: white;
         }
+
+        .ticket-container {
+            display: flex;
+            justify-content: center;
+        }
+
+
+
+        body {
+            background-color: rgb(243, 239, 239);
+            min-height: calc(100vh - 40px);
+            font-family: 'Lato', sans-serif;
+
+            widget {
+                filter: drop-shadow(1px 1px 3px rgba(0, 0, 0, 0.3));
+
+                &[type="ticket"] {
+                    width: 255px;
+
+                    .top,
+                    .bottom {
+                        >div {
+                            padding: 0 18px;
+
+                            &:first-child {
+                                padding-top: 15px;
+                            }
+
+                            &:last-child {
+                                padding-bottom: 18px;
+                            }
+                        }
+
+                        img {
+                            padding: 18px 0;
+                        }
+                    }
+
+                    .top,
+                    .bottom,
+                    .rip {
+                        background-color: #fff;
+                    }
+
+                    .top {
+                        border-top-right-radius: 5px;
+                        border-top-left-radius: 5px;
+
+                        .deetz {
+                            padding-bottom: 10px !important;
+                        }
+                    }
+
+                    .bottom {
+                        border-bottom-right-radius: 5px;
+                        border-bottom-left-radius: 5px;
+                        padding: 18px;
+                        height: 30px;
+
+                        .barcode {
+                            background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAF4AAAABCAYAAABXChlMAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAYdEVYdFNvZnR3YXJlAHBhaW50Lm5ldCA0LjAuOWwzfk4AAACPSURBVChTXVAJDsMgDOsrVpELiqb+/4c0DgStQ7JMYogNh2gdvg5VfXFCRIZaC6BOtnoNFpvaumNmwb/71Frrm8XvgYkker1/g9WzMOsohaOGNziRs5inDsAn8yEPengTapJ5bmdZ2Yv7VvfPN6AH2NJx7nOWPTf1/78hoqgxhzw3ZqYG1Dr/9ur3y8vMxgNZhcAUnR4xKgAAAABJRU5ErkJggg==);
+                            background-repeat: repeat-y;
+                            min-width: 58px;
+                        }
+
+                        .buy {
+                            display: block;
+                            font-size: 12px;
+                            font-weight: bold;
+                            background-color: #5D9CEC;
+                            padding: 0 18px;
+                            line-height: 30px;
+                            border-radius: 15px;
+                            color: #fff;
+                            text-decoration: none;
+                        }
+                    }
+
+                    .rip {
+                        height: 20px;
+                        margin: 0 10px;
+                        background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAACCAYAAAB7Xa1eAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAYdEVYdFNvZnR3YXJlAHBhaW50Lm5ldCA0LjAuOWwzfk4AAAAaSURBVBhXY5g7f97/2XPn/AcCBmSMQ+I/AwB2eyNBlrqzUQAAAABJRU5ErkJggg==);
+                        background-size: 4px 2px;
+                        background-repeat: repeat-x;
+                        background-position: center;
+                        position: relative;
+                        box-shadow: 0 1px 0 0 #fff, 0 -1px 0 0 #fff;
+
+                        &:before,
+                        &:after {
+                            content: '';
+                            position: absolute;
+                            width: 20px;
+                            height: 20px;
+                            top: 50%;
+                            transform: translate(-50%, -50%) rotate(45deg);
+                            border: 5px solid transparent;
+                            border-top-color: #fff;
+                            border-right-color: #fff;
+                            border-radius: 100%;
+                            pointer-events: none;
+                        }
+
+                        &:before {
+                            left: -10px;
+                        }
+
+                        &:after {
+                            transform: translate(-50%, -50%) rotate(225deg);
+                            right: -40px;
+                        }
+                    }
+                }
+
+                .-bold {
+                    font-weight: bold;
+                }
+            }
+        }
     </style>
 </head>
 
-<body>
+<body class="">
     <div class="container-fluid header" style="position: relative; z-index: 1;">
         <div class="row align-items-center container-fluid">
             <div class="col-md-4 d-flex align-items-center">
@@ -62,36 +179,74 @@
                         </li>
                     </ul>
                 </div>
-                </div>
             </div>
         </div>
+    </div>
     </div>
 
     <div class="container">
         <h2 class="mt-5">Seus Eventos</h2>
-        <p>Aqui estão os seus eventos.</p>
+        <div class="d-flex align-items-center">
+            <p class="mb-0">Aqui estão os seus eventos.</p>
+            <a href="{{ route('evento.create') }}" class="btn btn-primary ms-3" href="#">Criar evento</a>
+        </div>
+        <div class="container-fluid d-flex justify-content-start align-items-center vh-100 p-4">
+            <div class="ticket-container">
+                <widget type="ticket" class="--flex-column">
+                    <div class="top --flex-column">
+                        <div class="bandname -bold">Ghost Mice</div>
+                        <div class="tourname">Home Tour</div>
+                        <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/199011/concert.png" alt="" />
+                        <div class="deetz --flex-row-j!sb">
+                            <div class="event --flex-column">
+                                <div class="date">3rd March 2017</div>
+                                <div class="location -bold">Bloomington, Indiana</div>
+                            </div>
+                            <div class="price --flex-column">
+                                <div class="label">Price</div>
+                                <div class="cost -bold">$30</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="rip"></div>
+                    <div class="bottom --flex-row-j!sb">
+                        <div class="barcode"></div>
+                        <a class="buy" href="#">BUY TICKET</a>
+                    </div>
+                </widget>
+            </div>
+        </div>
 
-        <div class="row">
-            <!-- Loop para listar os ingressos do participante -->
+        <!-- <div class="row">
             @foreach($eventos as $evento)
             <div class="col-md-4">
-                <div class="card">
-                    <img class="card-img-top" src="{{ asset('images/events/' . $ingresso->evento->imagem) }}" alt="{{ $ingresso->evento->nome }}">
+                <div class="card mt-4">
+                    @php
+                    // Definir a imagem com base no tipo do evento
+                    $imagemEvento = '';
+                    if ($evento->nome === 'Show') {
+                    $imagemEvento = 'show1.png';
+                    } elseif ($evento->nome === 'Festas') {
+                    $imagemEvento = 'festas.jpg';
+                    } elseif ($evento->nome === 'Campeonatos esportivos') {
+                    $imagemEvento = 'esportes4.png';
+                    } else {
+                    $imagemEvento = 'alt3.png';
+                    }
+                    @endphp
+                    <img class="card-img-top" src="{{ asset('images/events/' . $imagemEvento) }}" alt="{{ $evento->nome }}">
                     <div class="card-body">
                         <h5 class="card-title">{{ $evento->nome }}</h5>
                         <p class="card-text">Data: {{ $evento->data }}</p>
                         <p class="card-text">Local: {{ $evento->local }}</p>
-                        <a href="{{ route('evento.show', $evento->id) }}" class="btn btn-primary">Ver detalhes</a>
+                        <a class="btn btn-primary">Ver detalhes</a>
                     </div>
                 </div>
             </div>
             @endforeach
-        </div>
-
-        <div class="text-center mt-4">
-            <a class="btn btn-success">Criar evento</a>
-        </div>
+        </div> -->
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>

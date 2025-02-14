@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\EventoController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\OrganizadorController;
 use App\Http\Controllers\ParticipanteController;
@@ -48,7 +49,6 @@ Route::post('/logout', function () {
 //Excluir Organizador
 Route::delete('/organizador/{id}', [OrganizadorController::class, 'destroy'])->name('organizador.destroy');
 
-
 //-----------PARTICIPANTE-----------
 //Cadastro Participante
 Route::get('/auth/participante', [ParticipanteController::class, 'index'])->name('participante.auth.cadastroParticipante');
@@ -73,3 +73,8 @@ Route::post('/logout', function () {
 
 //Excluir participante
 Route::delete('/participante/{id}', [ParticipanteController::class, 'destroy'])->name('participante.destroy');
+
+//-----------EVENTOS-----------
+//Cadastro Eventos
+Route::get('/criar/participante', [EventoController::class, 'index'])->name('evento.create');
+Route::resource('eventos', EventoController::class);

@@ -9,12 +9,18 @@ class Evento extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'tipo',
+        'nome',
         'data',
         'valor',
+        'local',
+        'descricao',
         'lotacaoMax',
         'organizador_id'
     ];
+    public function ingressos()
+    {
+        return $this->hasMany(Ingresso::class);
+    }
 
 
     public function organizador()

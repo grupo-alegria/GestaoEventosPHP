@@ -16,7 +16,9 @@ return new class extends Migration
             $table->string('nome');
             $table->date('data');
             $table->decimal('valor');
+            $table->string('local');
             $table->integer('lotacaoMax');
+            $table->string('descricao');
             $table->foreignId('organizador_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
