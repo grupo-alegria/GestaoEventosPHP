@@ -10,6 +10,7 @@ class Evento extends Model
     use HasFactory;
     protected $fillable = [
         'nome',
+        'tipo',
         'data',
         'valor',
         'local',

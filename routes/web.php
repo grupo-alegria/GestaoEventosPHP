@@ -78,3 +78,10 @@ Route::delete('/participante/{id}', [ParticipanteController::class, 'destroy'])-
 //Cadastro Eventos
 Route::get('/criar/participante', [EventoController::class, 'index'])->name('evento.create');
 Route::resource('eventos', EventoController::class);
+
+//Edit Evento
+Route::get('/eventos/{id}/edit', [EventoController::class, 'edit'])->name('eventos.edit');
+Route::put('/eventos/{id}', [EventoController::class, 'update'])->name('eventos.update');
+
+//Excluir Evento
+Route::delete('/eventos/{id}', [EventoController::class, 'destroy'])->name('eventos.destroy');

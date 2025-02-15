@@ -26,13 +26,18 @@
             @csrf
 
             <div class="mb-3">
-                <label for="nome" class="form-label">Tipo do Evento</label>
-                <select name="nome" id="nome" class="form-control" required>
+                <label for="nome" class="form-label">Nome da Festa</label>
+                <input type="text" name="nome" id="nome" class="form-control" value="{{ old('nome') }}" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="tipo" class="form-label">Tipo do Evento</label>
+                <select name="tipo" id="tipo" class="form-control" required>
                     <option value="" disabled selected>Selecione o tipo</option>
-                    <option value="Show" {{ old('nome') == 'Show' ? 'selected' : '' }}>Show</option>
-                    <option value="Festas" {{ old('nome') == 'Festas' ? 'selected' : '' }}>Festas</option>
-                    <option value="Campeonatos esportivos" {{ old('nome') == 'Campeonatos esportivos' ? 'selected' : '' }}>Campeonatos esportivos</option>
-                    <option value="Outros" {{ old('nome') == 'Outros' ? 'selected' : '' }}>Outros</option>
+                    <option value="Show" {{ old('tipo') == 'Show' ? 'selected' : '' }}>Show</option>
+                    <option value="Festas" {{ old('tipo') == 'Festas' ? 'selected' : '' }}>Festas</option>
+                    <option value="Campeonatos esportivos" {{ old('tipo') == 'Campeonatos esportivos' ? 'selected' : '' }}>Campeonatos esportivos</option>
+                    <option value="Outros" {{ old('tipo') == 'Outros' ? 'selected' : '' }}>Outros</option>
                 </select>
             </div>
 
@@ -62,7 +67,7 @@
             </div>
 
             <button type="submit" class="btn btn-primary">Criar Evento</button>
-            <a href="{{ route('eventos.index') }}" class="btn btn-secondary">Cancelar</a>
+            <a href="{{ route('organizador.home') }}" class="btn btn-secondary">Cancelar</a>
         </form>
     </div>
 </body>

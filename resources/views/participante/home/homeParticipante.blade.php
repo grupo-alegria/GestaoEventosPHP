@@ -12,7 +12,8 @@
         }
 
         .header {
-            background-color: rgb(238, 186, 130);
+            background-color: rgb(42, 41, 39);
+            color: white;
         }
 
         .card {

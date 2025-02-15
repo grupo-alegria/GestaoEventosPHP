@@ -17,7 +17,8 @@ class EventoController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nome' => 'required|in:Show,Festas,Campeonatos esportivos,Outros',
+            'nome' => 'required|string',
+            'tipo' => 'required|in:Show,Festas,Campeonatos esportivos,Outros',
             'data' => 'required|date',
             'valor' => 'required|numeric|min:0',
             'local' => 'required|string',
@@ -33,6 +34,7 @@ class EventoController extends Controller
 
         $evento = Evento::create([
             'nome' => $request->nome,
+            'tipo' => $request->tipo,
             'data' => $request->data,
             'valor' => $request->valor,
             'local' => $request->local,
@@ -44,7 +46,7 @@ class EventoController extends Controller
         for ($i = 1; $i <= $request->lotacaoMax; $i++) {
             Ingresso::create([
                 'evento_id' => $evento->id,
-                'tipo' => $request->nome,
+                'tipo' => $request->tipo,
                 'valor' => $request->valor,
                 'participante_id' => null,
             ]);
@@ -57,32 +59,50 @@ class EventoController extends Controller
     }
 
 
-    public function edit(Evento $evento)
+    public function edit($id)
     {
+        $evento = Evento::findOrFail($id);
         return view('eventos.edit', compact('evento'));
     }
 
-    public function update(Request $request, Evento $evento)
+    public function update(Request $request, $id)
     {
+        // Validação dos dados (opcional, mas recomendado)
         $request->validate([
-            'tipo' => 'required|string|in:Show,Festas,Campeonatos esportivos,Outros',
+            'nome' => 'required|min:3',
+            'descricao' => 'required',
+            'valor' => 'required|numeric',
             'data' => 'required|date',
-            'valor' => 'required|numeric|min:0',
-            'local' => 'required|string',
-            'descricao' => 'required|string|max:255',
-            'lotacaoMax' => 'required|integer|min:1',
-            'organizador_id' => 'required|exists:organizadors,id',
         ]);
 
-        $evento->update($request->all());
+        // Busca o evento pelo ID
+        $evento = Evento::findOrFail($id);
 
-        return redirect()->route('eventos.index')->with('success', 'Evento atualizado com sucesso!');
+        // Atualiza os dados do evento
+        $evento->update([
+            'nome' => $request->nome,
+            'descricao' => $request->descricao,
+            'valor' => $request->valor,
+            'data' => $request->data,
+        ]);
+
+        // Redireciona para a lista de eventos com uma mensagem de sucesso
+        return redirect()->route('organizador.home')->with('success', 'Evento atualizado com sucesso!');
     }
 
-    public function destroy(Evento $evento)
+    public function destroy($id)
     {
-        $evento->delete();
-        return redirect()->route('eventos.index')->with('success', 'Evento excluído com sucesso!');
+        $evento = Evento::find($id);
+
+        if ($evento) {
+            Ingresso::where('evento_id', $evento->id)->delete();
+
+            $evento->delete();
+
+            return redirect()->route('organizador.home')->with('success', 'Evento excluído com sucesso!');
+        }
+
+        return redirect()->route('organizador.home')->with('error', 'Evento não encontrado.');
     }
 
     public function ingressos()

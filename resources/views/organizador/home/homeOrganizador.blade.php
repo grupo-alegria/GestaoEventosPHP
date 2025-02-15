@@ -12,15 +12,12 @@
             color: white;
         }
 
-        .card {
-            transform: scale(1);
-            transition: transform 0.3s ease-in-out, border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-        }
-
-        .card:hover {
-            transform: scale(1.05);
-            border-color: #007bff;
-            box-shadow: 0 8px 16px rgba(0, 123, 255, 0.2);
+        .card-img-top {
+            width: 100%;
+            height: 170px;
+            /* Ajuste conforme necessário */
+            object-fit: cover;
+            /* Evita distorção */
         }
 
         .logout-btn {
@@ -37,8 +34,6 @@
             display: flex;
             justify-content: center;
         }
-
-
 
         body {
             background-color: rgb(243, 239, 239);
@@ -86,15 +81,19 @@
                     }
 
                     .bottom {
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
                         border-bottom-right-radius: 5px;
                         border-bottom-left-radius: 5px;
-                        padding: 18px;
-                        height: 30px;
+                        padding: 10px 18px;
+                        height: 40px;
 
                         .barcode {
                             background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAF4AAAABCAYAAABXChlMAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAYdEVYdFNvZnR3YXJlAHBhaW50Lm5ldCA0LjAuOWwzfk4AAACPSURBVChTXVAJDsMgDOsrVpELiqb+/4c0DgStQ7JMYogNh2gdvg5VfXFCRIZaC6BOtnoNFpvaumNmwb/71Frrm8XvgYkker1/g9WzMOsohaOGNziRs5inDsAn8yEPengTapJ5bmdZ2Yv7VvfPN6AH2NJx7nOWPTf1/78hoqgxhzw3ZqYG1Dr/9ur3y8vMxgNZhcAUnR4xKgAAAABJRU5ErkJggg==);
                             background-repeat: repeat-y;
                             min-width: 58px;
+                            height: 30px;
                         }
 
                         .buy {
@@ -107,6 +106,7 @@
                             border-radius: 15px;
                             color: #fff;
                             text-decoration: none;
+                            white-space: nowrap;
                         }
                     }
 
@@ -124,8 +124,8 @@
                         &:after {
                             content: '';
                             position: absolute;
-                            width: 20px;
-                            height: 20px;
+                            width: 30px;
+                            height: 30px;
                             top: 50%;
                             transform: translate(-50%, -50%) rotate(45deg);
                             border: 5px solid transparent;
@@ -183,6 +183,36 @@
         </div>
     </div>
     </div>
+    @if(session('success'))
+    <div class="alert alert-success" id="alert-success">
+        {{ session('success') }}
+    </div>
+    @endif
+
+    @if(session('error'))
+    <div class="alert alert-danger" id="alert-error">
+        {{ session('error') }}
+    </div>
+    @endif
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const successAlert = document.getElementById('alert-success');
+            const errorAlert = document.getElementById('alert-error');
+
+            if (successAlert) {
+                setTimeout(function() {
+                    successAlert.style.display = 'none';
+                }, 3000);
+            }
+
+            if (errorAlert) {
+                setTimeout(function() {
+                    errorAlert.style.display = 'none';
+                }, 3000);
+            }
+        });
+    </script>
+
 
     <div class="container">
         <h2 class="mt-5">Seus Eventos</h2>
@@ -191,62 +221,92 @@
             <a href="{{ route('evento.create') }}" class="btn btn-primary ms-3" href="#">Criar evento</a>
         </div>
         <div class="container-fluid d-flex justify-content-start align-items-center vh-100 p-4">
-            <div class="ticket-container">
+            @foreach($eventos as $evento)
+            <div class="ticket-container row ms-3">
                 <widget type="ticket" class="--flex-column">
                     <div class="top --flex-column">
-                        <div class="bandname -bold">Ghost Mice</div>
-                        <div class="tourname">Home Tour</div>
-                        <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/199011/concert.png" alt="" />
+                        <div class="bandname -bold">{{ $evento->nome }}</div>
+                        <div class="tourname">{{ $evento->tipo }}</div>
+                        @php
+                        // Definir a imagem com base no tipo do evento
+                        $imagemEvento = match($evento->tipo) {
+                        'Show' => 'show1.png',
+                        'Festas' => 'festas.jpg',
+                        'Campeonatos esportivos' => 'esporte2.png',
+                        default => 'alt3.png',
+                        };
+                        @endphp
+                        <img class="card-img-top" src="{{ asset('images/events/' . $imagemEvento) }}" alt="{{ $evento->nome }}">
                         <div class="deetz --flex-row-j!sb">
                             <div class="event --flex-column">
-                                <div class="date">3rd March 2017</div>
-                                <div class="location -bold">Bloomington, Indiana</div>
+                                <div class="date">{{ $evento->data }}</div>
+                                <div class="location -bold">{{ $evento->local }}</div>
                             </div>
                             <div class="price --flex-column">
                                 <div class="label">Price</div>
-                                <div class="cost -bold">$30</div>
+                                <div class="cost -bold">{{ $evento->valor }}</div>
                             </div>
                         </div>
                     </div>
                     <div class="rip"></div>
                     <div class="bottom --flex-row-j!sb">
                         <div class="barcode"></div>
-                        <a class="buy" href="#">BUY TICKET</a>
+                        <a type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#eventoModal-{{ $evento->id }}">
+                            Informações
+                        </a>
                     </div>
                 </widget>
             </div>
-        </div>
 
-        <!-- <div class="row">
-            @foreach($eventos as $evento)
-            <div class="col-md-4">
-                <div class="card mt-4">
-                    @php
-                    // Definir a imagem com base no tipo do evento
-                    $imagemEvento = '';
-                    if ($evento->nome === 'Show') {
-                    $imagemEvento = 'show1.png';
-                    } elseif ($evento->nome === 'Festas') {
-                    $imagemEvento = 'festas.jpg';
-                    } elseif ($evento->nome === 'Campeonatos esportivos') {
-                    $imagemEvento = 'esportes4.png';
-                    } else {
-                    $imagemEvento = 'alt3.png';
-                    }
-                    @endphp
-                    <img class="card-img-top" src="{{ asset('images/events/' . $imagemEvento) }}" alt="{{ $evento->nome }}">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ $evento->nome }}</h5>
-                        <p class="card-text">Data: {{ $evento->data }}</p>
-                        <p class="card-text">Local: {{ $evento->local }}</p>
-                        <a class="btn btn-primary">Ver detalhes</a>
+            <!-- Modal para cada evento -->
+            <div class="modal fade" id="eventoModal-{{ $evento->id }}" tabindex="-1" aria-labelledby="modalLabel-{{ $evento->id }}" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modalLabel-{{ $evento->id }}">{{ $evento->nome }}</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="{{ route('eventos.update', $evento->id) }}" method="POST">
+                                @csrf
+                                @method('PUT')
+                                <div class="mb-3">
+                                    <label class="form-label">Nome do Evento</label>
+                                    <input type="text" class="form-control" name="nome" value="{{ $evento->nome }}">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Descrição</label>
+                                    <textarea class="form-control" name="descricao">{{ $evento->descricao }}</textarea>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Valor Ingresso</label>
+                                    <input type="number" class="form-control" name="valor" value="{{ $evento->valor }}">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Data</label>
+                                    <input type="date" class="form-control" name="data" value="{{ $evento->data }}">
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <form action="{{ route('eventos.update', $evento->id) }}" method="POST">
+                                        @csrf
+                                        @method('PUT')
+                                        <button type="submit" class="btn btn-success">Salvar Alterações</button>
+                                    </form>
+
+                                    <form action="{{ route('eventos.destroy', $evento->id) }}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger">Excluir Evento</button>
+                                    </form>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
             @endforeach
-        </div> -->
-    </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
