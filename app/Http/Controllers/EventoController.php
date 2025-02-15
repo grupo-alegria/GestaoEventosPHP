@@ -4,14 +4,34 @@ namespace App\Http\Controllers;
 
 use App\Models\Evento;
 use App\Models\Ingresso;
+use App\Models\Participante;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class EventoController extends Controller
 {
-    public function index()
+    public function show(Request $request, $id)
     {
-        return view('eventos.auth.cadastroEventos');
+        $eventos = Evento::all(); // Busca todos os eventos
+        $participante = Participante::findOrFail($id);
+
+        if (!$participante) {
+            return redirect()->back()->with('error', 'Participante não encontrado.');
+        }
+
+        return view('eventos.index.eventos', compact('eventos', 'participante'));
+    }
+
+    public function index(Request $request, $id)
+    {
+        $eventos = Evento::all(); // Busca todos os eventos
+        $participante = Participante::findOrFail($id);
+
+        if (!$participante) {
+            return redirect()->back()->with('error', 'Participante não encontrado.');
+        }
+
+        return view('eventos.index.eventos', compact('eventos', 'participante'));
     }
 
     public function store(Request $request)

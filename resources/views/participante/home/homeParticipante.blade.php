@@ -67,11 +67,43 @@
             </div>
         </div>
     </div>
+    @if(session('success'))
+    <div class="alert alert-success" id="alert-success">
+        {{ session('success') }}
+    </div>
+    @endif
+
+    @if(session('error'))
+    <div class="alert alert-danger" id="alert-error">
+        {{ session('error') }}
+    </div>
+    @endif
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const successAlert = document.getElementById('alert-success');
+            const errorAlert = document.getElementById('alert-error');
+
+            if (successAlert) {
+                setTimeout(function() {
+                    successAlert.style.display = 'none';
+                }, 3000);
+            }
+
+            if (errorAlert) {
+                setTimeout(function() {
+                    errorAlert.style.display = 'none';
+                }, 3000);
+            }
+        });
+    </script>
 
     <div class="container">
         <h2 class="mt-5">Seus Ingressos</h2>
         <p>Aqui estão os ingressos que você adquiriu.</p>
-        <a class="btn btn-success mb-3">Ver eventos disponíveis</a>
+        <a href="{{ route('eventos.index', $participante->id) }}" class="btn btn-success mb-3">
+            Ver eventos disponíveis
+        </a>
+
         <div class="row">
             <!-- Loop para listar os ingressos do participante -->
             @foreach($ingressos as $ingresso)
@@ -87,7 +119,7 @@
                             <strong>Código do Ingresso:</strong> {{ $ingresso->codigo }}<br>
                             <strong>Status:</strong> {{ $ingresso->status }}
                         </p>
-                        <a href="{{ route('ingresso.show', $ingresso->id) }}" class="btn btn-primary">Ver detalhes</a>
+                        <a class="btn btn-primary">Ver detalhes</a>
                     </div>
                 </div>
             </div>

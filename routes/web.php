@@ -85,3 +85,10 @@ Route::put('/eventos/{id}', [EventoController::class, 'update'])->name('eventos.
 
 //Excluir Evento
 Route::delete('/eventos/{id}', [EventoController::class, 'destroy'])->name('eventos.destroy');
+
+//Listar Eventos
+Route::get('/eventos/index/{id}', [EventoController::class, 'index'])->name('eventos.index');
+
+
+//-----------INGRESSO-----------
+Route::put('/comprar-ingresso/{eventoId}/{participanteId}', [ParticipanteController::class, 'comprarIngresso'])->name('participante.comprarIngresso');

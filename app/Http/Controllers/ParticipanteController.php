@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Evento;
 use Illuminate\Http\Request;
 use App\Models\Participante;
 use App\Models\Ingresso;
@@ -98,5 +99,22 @@ class ParticipanteController extends Controller
         $participante->delete();
 
         return redirect()->route('home')->with('success', 'Conta excluída com sucesso.');
+    }
+
+    public function comprarIngresso($eventoId, $participanteId)
+    {
+        $ingresso = Ingresso::where('evento_id', $eventoId)
+            ->whereNull('participante_id')
+            ->first();
+
+        if (!$ingresso) {
+            return redirect()->back()->with('error', 'Não há ingressos disponíveis para este evento.');
+        }
+
+        // Atribuir o ingresso ao participante
+        $ingresso->participante_id = $participanteId;
+        $ingresso->save();
+
+        return redirect()->route('participante.home')->with('success', 'Ingresso comprado com sucesso!');
     }
 }
