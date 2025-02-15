@@ -9,10 +9,6 @@
     <link href="https://fonts.googleapis.com/css?family=Cabin|Indie+Flower|Inknut+Antiqua|Lora|Ravi+Prakash" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
     <style>
-        body {
-            background-color: rgb(255, 255, 255);
-        }
-
         .header {
             background-color: rgb(42, 41, 39);
             color: white;
@@ -177,6 +173,7 @@
             padding: 6px 14px;
             float: right;
             margin-top: 10px;
+            margin-left: 10px;
             font-size: 18px;
             border: none;
             cursor: pointer
@@ -272,7 +269,7 @@
     <div class="container">
         <h2 class="mt-5">Seus Ingressos</h2>
         <p>Aqui estão os ingressos que você adquiriu.</p>
-        <a href="{{ route('eventos.index', $participante->id) }}" class="btn btn-success mb-3">
+        <a href="{{ route('eventos.show', $participante->id) }}" class="btn btn-success mb-3">
             Ver eventos disponíveis
         </a>
 
@@ -307,6 +304,34 @@
                                 <p>{{ $ingresso->evento->local }}</p>
                             </div>
                             <div class="fix"></div>
+                            <form action="{{ route('participante.cancelarIngresso', ['id' => $ingresso->id, 'participanteId' => $ingresso->participante_id]) }}" method="POST">
+                                @csrf
+                                @method('PUT')
+                                <button type="button" class="cancel btn btn-danger mb-2" data-bs-toggle="modal" data-bs-target="#cancelModal-{{ $ingresso->id }}">
+                                    Cancelar
+                                </button>
+                            </form>
+                            <div class="modal fade" id="cancelModal-{{ $ingresso->id }}" tabindex="-1" aria-labelledby="cancelModalLabel-{{ $ingresso->id }}" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="cancelModalLabel-{{ $ingresso->id }}">Confirmar Cancelamento</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            Tem certeza de que deseja cancelar este ingresso para <strong>{{ $ingresso->evento->nome }}</strong>?
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Não</button>
+                                            <form action="{{ route('participante.cancelarIngresso', ['id' => $ingresso->id, 'participanteId' => $ingresso->participante_id]) }}" method="POST">
+                                                @csrf
+                                                @method('PUT')
+                                                <button type="submit" class="btn btn-danger">Sim, Cancelar</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <button class="booked">Confirmado</button>
                         </div>
                     </div>

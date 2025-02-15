@@ -8,10 +8,14 @@ use App\Http\Controllers\LoginController;
 use Illuminate\Support\Facades\Auth;
 
 //Pagina Inicial
-Route::get('/', function () { return view('welcome'); })->name('home');
+Route::get('/', function () {
+    return view('welcome');
+})->name('home');
 
 //Login
-Route::get('/login', function () { return view('auth.login');})->name('login');
+Route::get('/login', function () {
+    return view('auth.login');
+})->name('login');
 Route::post('/login', [LoginController::class, 'login'])->name('login.submit');
 
 //Login Organizador
@@ -91,4 +95,9 @@ Route::get('/eventos/index/{id}', [EventoController::class, 'index'])->name('eve
 
 
 //-----------INGRESSO-----------
+//Cadastrar Participante no ingresso
 Route::put('/comprar-ingresso/{eventoId}/{participanteId}', [ParticipanteController::class, 'comprarIngresso'])->name('participante.comprarIngresso');
+
+//Excluir participante do ingresso
+Route::put('/participante/cancelar-ingresso/{id}/{participanteId}', [ParticipanteController::class, 'cancelarIngresso'])
+    ->name('participante.cancelarIngresso');

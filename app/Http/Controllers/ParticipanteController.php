@@ -103,6 +103,14 @@ class ParticipanteController extends Controller
 
     public function comprarIngresso($eventoId, $participanteId)
     {
+        $ingressoExistente = Ingresso::where('evento_id', $eventoId)
+            ->where('participante_id', $participanteId)
+            ->exists();
+
+        if ($ingressoExistente) {
+            return redirect()->back()->with('error', 'Você já possui um ingresso para este evento.');
+        }
+
         $ingresso = Ingresso::where('evento_id', $eventoId)
             ->whereNull('participante_id')
             ->first();
@@ -111,10 +119,25 @@ class ParticipanteController extends Controller
             return redirect()->back()->with('error', 'Não há ingressos disponíveis para este evento.');
         }
 
-        // Atribuir o ingresso ao participante
         $ingresso->participante_id = $participanteId;
         $ingresso->save();
 
         return redirect()->route('participante.home')->with('success', 'Ingresso comprado com sucesso!');
+    }
+
+    public function cancelarIngresso($id, $participanteId)
+    {
+        // Buscar o ingresso pelo ID
+        $ingresso = Ingresso::find($id);
+
+        if (!$ingresso) {
+            return redirect()->back()->with('error', 'Ingresso não encontrado.');
+        }
+
+        // Definir participante_id como NULL para "liberar" o ingresso
+        $ingresso->participante_id = null;
+        $ingresso->save();
+
+        return redirect()->back()->with('success', 'Ingresso cancelado com sucesso.');
     }
 }

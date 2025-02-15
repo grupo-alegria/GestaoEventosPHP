@@ -15,9 +15,7 @@
         .card-img-top {
             width: 100%;
             height: 170px;
-            /* Ajuste conforme necessário */
             object-fit: cover;
-            /* Evita distorção */
         }
 
         .logout-btn {

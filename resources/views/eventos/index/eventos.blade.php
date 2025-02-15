@@ -12,6 +12,27 @@
             color: white;
         }
 
+        .sold-out {
+            position: absolute;
+            top: 25px;
+            left: 80px;
+            background: red;
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            text-transform: uppercase;
+            padding: 10px 50px;
+            transform: rotate(45deg);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+
+        .card-img-top {
+            width: 100%;
+            height: 190px;
+            object-fit: cover;
+        }
+
         .card {
             transform: scale(1);
             transition: transform 0.3s ease-in-out, border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
@@ -210,11 +231,25 @@
         });
     </script>
     <div class="container">
-        <h3 class="mt-5 text-white">Eventos disponíveis:</h3>
+        <div class="d-flex justify-content-between align-items-center">
+            <h3 class="mt-5 text-white">Eventos disponíveis:</h3>
+            <a href="{{ route('participante.home') }}" class="btn btn-secondary mt-5 ms-auto">Voltar</a>
+        </div>
+
         <div class="container-fluid d-flex justify-content-start align-items-center vh-100 p-4">
             @foreach($eventos as $evento)
-            <div class="ticket-container row ms-3">
-                <widget type="ticket" class="--flex-column">
+            @php
+            // Verificar se o evento já tem ingressos esgotados
+            $ingressosEsgotados = $evento->ingressos()->where('participante_id', null)->count() == 0;
+            @endphp
+
+            <div class="ticket-container row ms-3 position-relative">
+                <widget type="ticket" class="--flex-column position-relative">
+                    <!-- Faixa "Esgotado" se não houver ingressos disponíveis -->
+                    @if($ingressosEsgotados)
+                    <div class="sold-out">Esgotado</div>
+                    @endif
+
                     <div class="top --flex-column">
                         <div class="bandname -bold">{{ $evento->nome }}</div>
                         <div class="tourname">{{ $evento->tipo }}</div>
@@ -241,11 +276,16 @@
                     </div>
                     <div class="rip"></div>
                     <div class="bottom --flex-row-j!sb">
+                        @if($ingressosEsgotados)
+                        <button class="btn btn-danger" disabled>Esgotado</button>
+                        @else
                         <form action="{{ route('participante.comprarIngresso', ['eventoId' => $evento->id, 'participanteId' => $participante->id]) }}" method="POST">
                             @csrf
                             @method('PUT')
                             <button type="submit" class="btn btn-success">Comprar</button>
                         </form>
+                        @endif
+
                         <a type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#eventoModal-{{ $evento->id }}">
                             Informações
                         </a>

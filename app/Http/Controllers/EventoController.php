@@ -22,16 +22,9 @@ class EventoController extends Controller
         return view('eventos.index.eventos', compact('eventos', 'participante'));
     }
 
-    public function index(Request $request, $id)
+    public function index()
     {
-        $eventos = Evento::all(); // Busca todos os eventos
-        $participante = Participante::findOrFail($id);
-
-        if (!$participante) {
-            return redirect()->back()->with('error', 'Participante não encontrado.');
-        }
-
-        return view('eventos.index.eventos', compact('eventos', 'participante'));
+        return view('eventos.auth.cadastroEventos');
     }
 
     public function store(Request $request)
