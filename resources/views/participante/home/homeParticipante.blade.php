@@ -195,6 +195,23 @@
             text-decoration: line-through
         }
 
+        .bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom-right-radius: 5px;
+            border-bottom-left-radius: 5px;
+            padding: 10px 18px;
+            height: 50px;
+
+            .barcode {
+                background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAF4AAAABCAYAAABXChlMAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAYdEVYdFNvZnR3YXJlAHBhaW50Lm5ldCA0LjAuOWwzfk4AAACPSURBVChTXVAJDsMgDOsrVpELiqb+/4c0DgStQ7JMYogNh2gdvg5VfXFCRIZaC6BOtnoNFpvaumNmwb/71Frrm8XvgYkker1/g9WzMOsohaOGNziRs5inDsAn8yEPengTapJ5bmdZ2Yv7VvfPN6AH2NJx7nOWPTf1/78hoqgxhzw3ZqYG1Dr/9ur3y8vMxgNZhcAUnR4xKgAAAABJRU5ErkJggg==);
+                background-repeat: repeat-y;
+                min-width: 90px;
+                height: 30px;
+            }
+        }
+
         @media only screen and (max-width: 1150px) {
             .container .item {
                 width: 100%;
@@ -211,27 +228,30 @@
 <body>
     <div class="container-fluid header" style="position: relative; z-index: 1;">
         <div class="row align-items-center container-fluid">
-            <div class="col-md-4 d-flex align-items-center">
-                <img src="{{ asset('images/tarsierLogo.png') }}" alt="Logo" class="img-fluid w-25">
-                <div class="d-flex ms-4">
-                    <h3 class="mb-0">Tarsier</h3>
-                    <h3 class="mb-0 ms-2">Eventos</h3>
+            <div class="row align-items-center container-fluid">
+                <div class="col-md-4 d-flex align-items-center">
+                    <img src="{{ asset('images/tarsierLogo.png') }}" alt="Logo" class="img-fluid" style="width: 100px; height: auto;">
+                    <div class="d-flex ms-4">
+                        <h2 class="mb-0"><b>Tarsier</b></h2>
+                        <h2 class="mb-0 ms-2"><b>Eventos</b></h2>
+                    </div>
                 </div>
-            </div>
-            <div class="col-md-4 ms-auto text-md-end mt-3">
-                <div class="dropdown">
-                    <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                        👤 Bem-vindo, {{ $participante->nome }}
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <li><a href="{{ route('participante.edit', $participante->id) }}" class="dropdown-item">Editar Perfil</a></li>
-                        <li>
-                            <form action="{{ route('logout') }}" method="POST">
-                                @csrf
-                                <button type="submit" class="dropdown-item logout-btn">Sair</button>
-                            </form>
-                        </li>
-                    </ul>
+
+                <div class="col-md-4 ms-auto text-md-end mt-3">
+                    <div class="dropdown">
+                        <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                            👤 Bem-vindo, {{ $participante->nome }}
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <li><a href="{{ route('participante.edit', $participante->id) }}" class="dropdown-item">Editar Perfil</a></li>
+                            <li>
+                                <form action="{{ route('logout') }}" method="POST">
+                                    @csrf
+                                    <button type="submit" class="dropdown-item logout-btn">Sair</button>
+                                </form>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
@@ -267,21 +287,21 @@
     </script>
 
     <div class="container">
-        <h2 class="mt-5">Seus Ingressos</h2>
-        <p>Aqui estão os ingressos que você adquiriu.</p>
-        <a href="{{ route('eventos.show', $participante->id) }}" class="btn btn-success mb-3">
-            Ver eventos disponíveis
-        </a>
+        <div class="d-flex justify-content-between align-items-center mt-5">
+            <h2 class="mb-0">Seus Ingressos</h2>
+            <a href="{{ route('eventos.show', $participante->id) }}" class="btn btn-success mb-3">
+                Descobrir mais eventos
+            </a>
+        </div>
 
-        <div class="row">
-            <!-- Loop para listar os ingressos do participante -->
-            <div class="row d-flex flex-wrap gap-4">
-                @foreach($ingressos as $ingresso)
-                <div class="container d-flex">
+        <div class="row g-4 mt-4">
+            @foreach($ingressos as $ingresso)
+            <div class="col-md-6">
+                <div class="ticket-container d-flex">
                     <div class="item w-100">
                         <div class="item-right">
                             <h2 class="num">{{ \Carbon\Carbon::parse($ingresso->evento->data)->format('d') }}</h2>
-                            <p class="day">{{ \Carbon\Carbon::parse($ingresso->evento->data)->locale('pt_BR')->translatedFormat('F') }}</p>
+                            <p class="day">{{ \Carbon\Carbon::parse($ingresso->evento->data)->locale('pt_BR')->translatedFormat('M') }}</p>
                             <span class="up-border"></span>
                             <span class="down-border"></span>
                         </div>
@@ -296,6 +316,7 @@
                                 </div>
                                 <p>{{ \Carbon\Carbon::parse($ingresso->evento->data)->format('d/m/Y H:i') }}</p>
                             </div>
+
                             <div class="fix"></div>
                             <div class="loc">
                                 <div class="icon">
@@ -303,14 +324,15 @@
                                 </div>
                                 <p>{{ $ingresso->evento->local }}</p>
                             </div>
+
                             <div class="fix"></div>
-                            <form action="{{ route('participante.cancelarIngresso', ['id' => $ingresso->id, 'participanteId' => $ingresso->participante_id]) }}" method="POST">
-                                @csrf
-                                @method('PUT')
-                                <button type="button" class="cancel btn btn-danger mb-2" data-bs-toggle="modal" data-bs-target="#cancelModal-{{ $ingresso->id }}">
-                                    Cancelar
-                                </button>
-                            </form>
+                            <button class="booked">Confirmado</button>
+
+                            <button type="button" class="cancel btn btn-danger mb-2" data-bs-toggle="modal" data-bs-target="#cancelModal-{{ $ingresso->id }}">
+                                Cancelar
+                            </button>
+
+                            <!-- Modal de Confirmação -->
                             <div class="modal fade" id="cancelModal-{{ $ingresso->id }}" tabindex="-1" aria-labelledby="cancelModalLabel-{{ $ingresso->id }}" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
@@ -332,30 +354,12 @@
                                     </div>
                                 </div>
                             </div>
-                            <button class="booked">Confirmado</button>
-                        </div>
-                    </div>
-                </div>
-                @endforeach
-            </div>
-            <!-- @foreach($ingressos as $ingresso)
-            <div class="col-md-6">
-                <div class="card">
-                    <Exibindo a imagem do evento relacionado ao ingresso
-                    <img class="card-img-top" src="{{ asset('images/events/' . $ingresso->evento->imagem) }}" alt="{{ $ingresso->evento->nome }}">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ $ingresso->evento->nome }}</h5>
-                        <p class="card-text">
-                            <strong>Data do Evento:</strong> {{ \Carbon\Carbon::parse($ingresso->evento->data)->format('d/m/Y H:i') }}<br>
-                            <strong>Local:</strong> {{ $ingresso->evento->local }}<br>
-                            <strong>Código do Ingresso:</strong> {{ $ingresso->codigo }}<br>
-                            <strong>Status:</strong> {{ $ingresso->status }}
-                        </p>
-                        <a class="btn btn-primary">Ver detalhes</a>
-                    </div>
-                </div>
-            </div>
-            @endforeach -->
+
+                        </div> <!-- Fim item-left -->
+                    </div> <!-- Fim item -->
+                </div> <!-- Fim ticket-container -->
+            </div> <!-- Fim col-md-6 -->
+            @endforeach
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

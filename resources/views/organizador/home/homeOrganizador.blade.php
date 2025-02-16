@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Painel do Participante</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
         .header {
             background-color: rgb(42, 41, 39);
@@ -33,6 +34,14 @@
             justify-content: center;
         }
 
+        .view-details {
+            color: #007bff;
+        }
+
+        .view-details:hover {
+            color: #0056b3;
+        }
+
         body {
             background-color: rgb(243, 239, 239);
             min-height: calc(100vh - 40px);
@@ -42,7 +51,7 @@
                 filter: drop-shadow(1px 1px 3px rgba(0, 0, 0, 0.3));
 
                 &[type="ticket"] {
-                    width: 255px;
+                    width: 300px;
 
                     .top,
                     .bottom {
@@ -85,16 +94,16 @@
                         border-bottom-right-radius: 5px;
                         border-bottom-left-radius: 5px;
                         padding: 10px 18px;
-                        height: 40px;
+                        height: 50px;
 
                         .barcode {
                             background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAF4AAAABCAYAAABXChlMAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAYdEVYdFNvZnR3YXJlAHBhaW50Lm5ldCA0LjAuOWwzfk4AAACPSURBVChTXVAJDsMgDOsrVpELiqb+/4c0DgStQ7JMYogNh2gdvg5VfXFCRIZaC6BOtnoNFpvaumNmwb/71Frrm8XvgYkker1/g9WzMOsohaOGNziRs5inDsAn8yEPengTapJ5bmdZ2Yv7VvfPN6AH2NJx7nOWPTf1/78hoqgxhzw3ZqYG1Dr/9ur3y8vMxgNZhcAUnR4xKgAAAABJRU5ErkJggg==);
                             background-repeat: repeat-y;
-                            min-width: 58px;
+                            min-width: 90px;
                             height: 30px;
                         }
 
-                        .buy {
+                        /* .buy {
                             display: block;
                             font-size: 12px;
                             font-weight: bold;
@@ -105,7 +114,7 @@
                             color: #fff;
                             text-decoration: none;
                             white-space: nowrap;
-                        }
+                        } */
                     }
 
                     .rip {
@@ -156,16 +165,17 @@
     <div class="container-fluid header" style="position: relative; z-index: 1;">
         <div class="row align-items-center container-fluid">
             <div class="col-md-4 d-flex align-items-center">
-                <img src="{{ asset('images/tarsierLogo.png') }}" alt="Logo" class="img-fluid w-25">
+                <img src="{{ asset('images/tarsierLogo.png') }}" alt="Logo" class="img-fluid" style="width: 100px; height: auto;">
                 <div class="d-flex ms-4">
-                    <h3 class="mb-0">Tarsier</h3>
-                    <h3 class="mb-0 ms-2">Eventos</h3>
+                    <h2 class="mb-0"><b>Tarsier</b></h2>
+                    <h2 class="mb-0 ms-2"><b>Eventos</b></h2>
                 </div>
             </div>
+
             <div class="col-md-4 ms-auto text-md-end mt-3">
                 <div class="dropdown">
                     <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                        👤 Bem-vindo, {{ $organizador->nome }}
+                    <i class="fa fa-user" aria-hidden="true"></i> Bem-vindo, {{ $organizador->nome }}
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                         <li><a href="{{ route('organizador.edit', $organizador->id) }}" class="dropdown-item">Editar Perfil</a></li>
@@ -213,47 +223,54 @@
 
 
     <div class="container">
-        <h2 class="mt-5">Seus Eventos</h2>
-        <div class="d-flex align-items-center">
-            <p class="mb-0">Aqui estão os seus eventos.</p>
-            <a href="{{ route('evento.create') }}" class="btn btn-primary ms-3" href="#">Criar evento</a>
+        <div class="d-flex justify-content-between align-items-center mt-5">
+            <h2 class="mb-0">Seus Eventos</h2>
+            <a href="{{ route('evento.create') }}" class="btn btn-primary">
+                <i class="fa fa-plus" aria-hidden="true"></i> Criar evento
+            </a>
         </div>
-        <div class="container-fluid d-flex justify-content-start align-items-center vh-100 p-4">
+        <div class="row mt-4 mb-2">
             @foreach($eventos as $evento)
-            <div class="ticket-container row ms-3">
-                <widget type="ticket" class="--flex-column">
-                    <div class="top --flex-column">
-                        <div class="bandname -bold">{{ $evento->nome }}</div>
-                        <div class="tourname">{{ $evento->tipo }}</div>
-                        @php
-                        // Definir a imagem com base no tipo do evento
-                        $imagemEvento = match($evento->tipo) {
-                        'Show' => 'show1.png',
-                        'Festas' => 'festas.jpg',
-                        'Campeonatos esportivos' => 'esporte2.png',
-                        default => 'alt3.png',
-                        };
-                        @endphp
-                        <img class="card-img-top" src="{{ asset('images/events/' . $imagemEvento) }}" alt="{{ $evento->nome }}">
-                        <div class="deetz --flex-row-j!sb">
-                            <div class="event --flex-column">
-                                <div class="date">{{ $evento->data }}</div>
-                                <div class="location -bold">{{ $evento->local }}</div>
+            <div class="col-md-3 mb-4">
+                <div class="ticket-container">
+                    <widget type="ticket" class="--flex-column">
+                        <div class="top --flex-column">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="bandname -bold">{{ $evento->nome }}</div>
+                                <a type="button" data-bs-toggle="modal" data-bs-target="#eventoModal-{{ $evento->id }}">
+                                    <i class="fa fa-eye view-details" aria-hidden="true"></i>
+                                </a>
                             </div>
-                            <div class="price --flex-column">
-                                <div class="label">Price</div>
-                                <div class="cost -bold">{{ $evento->valor }}</div>
+                            <div class="tourname">{{ $evento->tipo }}</div>
+                            @php
+                            // Definir a imagem com base no tipo do evento
+                            $imagemEvento = match($evento->tipo) {
+                                'Show' => 'show1.png',
+                                'Festas' => 'festas.jpg',
+                                'Campeonatos esportivos' => 'esporte2.png',
+                                default => 'alt3.png',
+                            };
+                            @endphp
+                            <img class="card-img-top" src="{{ asset('images/events/' . $imagemEvento) }}" alt="{{ $evento->nome }}">
+                            <div class="deetz --flex-row-j!sb">
+                                <div class="event --flex-column">
+                                    <div class="date">{{ \Carbon\Carbon::parse($evento->data)->format('d/m/Y') }}</div>
+                                    <div class="location -bold">{{ $evento->local }}</div>
+                                </div>
+                                <div class="price --flex-column">
+                                    <div class="label">Preço</div>
+                                    <div class="cost -bold">R$ {{ number_format($evento->valor, 2, ',', '.') }}</div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="rip"></div>
-                    <div class="bottom --flex-row-j!sb">
-                        <div class="barcode"></div>
-                        <a type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#eventoModal-{{ $evento->id }}">
-                            Informações
-                        </a>
-                    </div>
-                </widget>
+                        <div class="rip"></div>
+                        <div class="bottom --flex-row-j!sb">
+                            <div class="barcode"></div>
+                            <div class="barcode" style="min-width: 80px;"></div>
+                            <div class="barcode" style="min-width: 100px;"></div>
+                        </div>
+                    </widget>
+                </div>
             </div>
 
             <!-- Modal para cada evento -->

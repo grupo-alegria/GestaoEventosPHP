@@ -55,7 +55,7 @@
         }
 
         body {
-            background-image: linear-gradient(-45deg, rgb(133, 89, 0), rgb(42, 41, 39));
+            background-image: linear-gradient(-45deg, rgb(170, 160, 139), rgb(42, 41, 39));
             min-height: calc(100vh - 40px);
             font-family: 'Lato', sans-serif;
 
@@ -106,7 +106,7 @@
                         border-bottom-right-radius: 5px;
                         border-bottom-left-radius: 5px;
                         padding: 10px 10px;
-                        height: 40px;
+                        height: 60px;
 
                         .barcode {
                             background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAF4AAAABCAYAAABXChlMAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAYdEVYdFNvZnR3YXJlAHBhaW50Lm5ldCA0LjAuOWwzfk4AAACPSURBVChTXVAJDsMgDOsrVpELiqb+/4c0DgStQ7JMYogNh2gdvg5VfXFCRIZaC6BOtnoNFpvaumNmwb/71Frrm8XvgYkker1/g9WzMOsohaOGNziRs5inDsAn8yEPengTapJ5bmdZ2Yv7VvfPN6AH2NJx7nOWPTf1/78hoqgxhzw3ZqYG1Dr/9ur3y8vMxgNZhcAUnR4xKgAAAABJRU5ErkJggg==);
@@ -176,27 +176,30 @@
 <body>
     <div class="container-fluid header" style="position: relative; z-index: 1;">
         <div class="row align-items-center container-fluid">
-            <div class="col-md-4 d-flex align-items-center">
-                <img src="{{ asset('images/tarsierLogo.png') }}" alt="Logo" class="img-fluid w-25">
-                <div class="d-flex ms-4">
-                    <h3 class="mb-0">Tarsier</h3>
-                    <h3 class="mb-0 ms-2">Eventos</h3>
+            <div class="row align-items-center container-fluid">
+                <div class="col-md-4 d-flex align-items-center">
+                    <img src="{{ asset('images/tarsierLogo.png') }}" alt="Logo" class="img-fluid" style="width: 100px; height: auto;">
+                    <div class="d-flex ms-4">
+                        <h2 class="mb-0"><b>Tarsier</b></h2>
+                        <h2 class="mb-0 ms-2"><b>Eventos</b></h2>
+                    </div>
                 </div>
-            </div>
-            <div class="col-md-4 ms-auto text-md-end mt-3">
-                <div class="dropdown">
-                    <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                        👤 Bem-vindo, {{ $participante->nome }}
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <li><a href="{{ route('participante.edit', $participante->id) }}" class="dropdown-item">Editar Perfil</a></li>
-                        <li>
-                            <form action="{{ route('logout') }}" method="POST">
-                                @csrf
-                                <button type="submit" class="dropdown-item logout-btn">Sair</button>
-                            </form>
-                        </li>
-                    </ul>
+
+                <div class="col-md-4 ms-auto text-md-end mt-3">
+                    <div class="dropdown">
+                        <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                            👤 Bem-vindo, {{ $participante->nome }}
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <li><a href="{{ route('participante.edit', $participante->id) }}" class="dropdown-item">Editar Perfil</a></li>
+                            <li>
+                                <form action="{{ route('logout') }}" method="POST">
+                                    @csrf
+                                    <button type="submit" class="dropdown-item logout-btn">Sair</button>
+                                </form>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
@@ -232,65 +235,66 @@
     </script>
     <div class="container">
         <div class="d-flex justify-content-between align-items-center">
-            <h3 class="mt-5 text-white">Eventos disponíveis:</h3>
-            <a href="{{ route('participante.home') }}" class="btn btn-secondary mt-5 ms-auto">Voltar</a>
+            <h3 class="mt-5 text-white">Eventos disponíveis</h3>
+            <a href="{{ route('participante.home') }}" class="btn btn-primary mt-5 ms-auto">Voltar</a>
         </div>
 
-        <div class="container-fluid d-flex justify-content-start align-items-center vh-100 p-4">
+        <div class="row mt-4 mb-2">
             @foreach($eventos as $evento)
             @php
             // Verificar se o evento já tem ingressos esgotados
             $ingressosEsgotados = $evento->ingressos()->where('participante_id', null)->count() == 0;
             @endphp
-
-            <div class="ticket-container row ms-3 position-relative">
-                <widget type="ticket" class="--flex-column position-relative">
-                    <!-- Faixa "Esgotado" se não houver ingressos disponíveis -->
-                    @if($ingressosEsgotados)
-                    <div class="sold-out">Esgotado</div>
-                    @endif
-
-                    <div class="top --flex-column">
-                        <div class="bandname -bold">{{ $evento->nome }}</div>
-                        <div class="tourname">{{ $evento->tipo }}</div>
-                        @php
-                        // Definir a imagem com base no tipo do evento
-                        $imagemEvento = match($evento->tipo) {
-                        'Show' => 'show1.png',
-                        'Festas' => 'festas.jpg',
-                        'Campeonatos esportivos' => 'esporte2.png',
-                        default => 'alt3.png',
-                        };
-                        @endphp
-                        <img class="card-img-top" src="{{ asset('images/events/' . $imagemEvento) }}" alt="{{ $evento->nome }}">
-                        <div class="deetz --flex-row-j!sb">
-                            <div class="event --flex-column">
-                                <div class="date">{{ $evento->data }}</div>
-                                <div class="location -bold">{{ $evento->local }}</div>
-                            </div>
-                            <div class="price --flex-column">
-                                <div class="label">Preço</div>
-                                <div class="cost -bold">R$ {{ number_format($evento->valor, 2, ',', '.') }}</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="rip"></div>
-                    <div class="bottom --flex-row-j!sb">
+            <div class="col-md-3 mb-4">
+                <div class="ticket-container">
+                    <widget type="ticket" class="--flex-column position-relative">
+                        <!-- Faixa "Esgotado" se não houver ingressos disponíveis -->
                         @if($ingressosEsgotados)
-                        <button class="btn btn-danger" disabled>Esgotado</button>
-                        @else
-                        <form action="{{ route('participante.comprarIngresso', ['eventoId' => $evento->id, 'participanteId' => $participante->id]) }}" method="POST">
-                            @csrf
-                            @method('PUT')
-                            <button type="submit" class="btn btn-success">Comprar</button>
-                        </form>
+                        <div class="sold-out">Esgotado</div>
                         @endif
 
-                        <a type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#eventoModal-{{ $evento->id }}">
-                            Informações
-                        </a>
-                    </div>
-                </widget>
+                        <div class="top --flex-column">
+                            <div class="bandname -bold">{{ $evento->nome }}</div>
+                            <div class="tourname">{{ $evento->tipo }}</div>
+                            @php
+                            // Definir a imagem com base no tipo do evento
+                            $imagemEvento = match($evento->tipo) {
+                            'Show' => 'show1.png',
+                            'Festas' => 'festas.jpg',
+                            'Campeonatos esportivos' => 'esporte2.png',
+                            default => 'alt3.png',
+                            };
+                            @endphp
+                            <img class="card-img-top" src="{{ asset('images/events/' . $imagemEvento) }}" alt="{{ $evento->nome }}">
+                            <div class="deetz --flex-row-j!sb">
+                                <div class="event --flex-column">
+                                    <div class="date">{{ $evento->data }}</div>
+                                    <div class="location -bold">{{ $evento->local }}</div>
+                                </div>
+                                <div class="price --flex-column">
+                                    <div class="label">Preço</div>
+                                    <div class="cost -bold">R$ {{ number_format($evento->valor, 2, ',', '.') }}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="rip"></div>
+                        <div class="bottom --flex-row-j!sb">
+                            @if($ingressosEsgotados)
+                            <button class="btn btn-danger" disabled>Esgotado</button>
+                            @else
+                            <form action="{{ route('participante.comprarIngresso', ['eventoId' => $evento->id, 'participanteId' => $participante->id]) }}" method="POST">
+                                @csrf
+                                @method('PUT')
+                                <button type="submit" class="btn btn-success">Comprar</button>
+                            </form>
+                            @endif
+
+                            <a type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#eventoModal-{{ $evento->id }}">
+                                Informações
+                            </a>
+                        </div>
+                    </widget>
+                </div>
             </div>
 
             <!-- Modal para cada evento -->
@@ -304,7 +308,7 @@
                         <div class="modal-body">
                             <p><strong>Descrição:</strong> {{ $evento->descricao }}</p>
                             <p><strong>Local:</strong> {{ $evento->local }}</p>
-                            <p><strong>Data:</strong> {{ $evento->data }}</p>
+                            <p><strong>Data:</strong> {{ \Carbon\Carbon::parse($evento->data)->format('d/m/Y') }}</p>
                             <p><strong>Preço:</strong> R$ {{ number_format($evento->valor, 2, ',', '.') }}</p>
                         </div>
                     </div>
