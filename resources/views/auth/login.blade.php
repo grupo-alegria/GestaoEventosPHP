@@ -9,48 +9,21 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Mono:ital,wght@0,200..800;1,200..800&family=Caveat:wght@400..700&family=Grechen+Fuemen&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto+Slab:wght@100..900&display=swap" rel="stylesheet">
-    <style>
-        .login-container {
-            display: flex;
-            justify-content: flex-end;
-            align-items: center;
-            height: 100vh;
-            padding-right: 90px;
-        }
-
-        .custom-card {
-            border: 2px solid #464322;
-            border-radius: 30px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-
-        .card {
-            background-color: rgb(30, 29, 29);
-        }
-
-        .btn {
-            background-color: #464322;
-        }
-
-        .text {
-            color: rgb(255, 255, 255);
-        }
-    </style>
 </head>
 
-<body>
-    <div class="login-container bg-black">
-        <div class="container ms-5">
+<body class="bg-black">
+    <div class="d-flex justify-content-end align-items-center vh-100 pe-5">
+        <div class="container">
             <div class="col-md-4 d-flex align-items-center ms-5">
-                <h3 class="text-white" style="font-family: 'Poppins', sans-serif;">Bem-Vindo Novamente!</h3>
+                <h3 class="text-white font-poppins">Bem-Vindo Novamente!</h3>
             </div>
             <div class="row justify-content-end">
                 <div class="col-md-6">
-                    <div class="card text-white custom-card">
-                        <div class="card-header text-center">
-                            <h3 class="text">LOGIN</h3>
+                    <div class="card border-1 border-warning rounded-30 shadow">
+                        <div class="card-header text-center bg-dark">
+                            <h3 class="text-white">LOGIN</h3>
                         </div>
-                        <div class="card-body">
+                        <div class="card-body bg-dark">
                             <!-- Exibe mensagens de erro ou sucesso -->
                             @if(session('error'))
                             <div class="alert alert-danger">
@@ -96,20 +69,19 @@
 
                             <!-- Link para Cadastro -->
                             <div class="mt-3 text-center">
-                                <a href="{{ route('home') }}" class="text"> Voltar </a>
+                                <a href="{{ route('home') }}" class="text-white"> Voltar </a>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="row">
-                <div class="col-6 d-flex justify-content-start" style="position: absolute; bottom: 100px; left: -20px;">
+                <div class="col-6 d-flex justify-content-start position-absolute" style="bottom: 100px; left: -20px;">
                     <img src="{{ asset('images/tarsierLogin2.png') }}" alt="Logo" class="img-fluid" style="width: 600px; height: auto;">
                 </div>
             </div>
         </div>
     </div>
 </body>
-
 
 </html>
