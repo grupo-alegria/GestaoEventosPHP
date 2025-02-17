@@ -66,8 +66,14 @@
                 <textarea name="descricao" id="descricao" class="form-control" rows="4" required>{{ old('descricao') }}</textarea>
             </div>
 
-            <button type="submit" class="btn btn-primary">Criar Evento</button>
-            <a href="{{ route('organizador.home') }}" class="btn btn-secondary">Cancelar</a>
+            <div class="row">
+                <div class="col-md-6">
+                    <a href="{{ route('organizador.home') }}" class="btn btn-secondary">Cancelar</a>
+                </div>
+                <div class="col-md-6 text-end">
+                    <button type="submit" class="btn btn-primary">Criar Evento</button>
+                </div>
+            </div>
         </form>
     </div>
 </body>

@@ -43,11 +43,11 @@
 
         body {
             background: #DDD;
-            font-family: 'Inknut Antiqua', serif;
+            /* font-family: 'Inknut Antiqua', serif;
             font-family: 'Ravi Prakash', cursive;
             font-family: 'Lora', serif;
             font-family: 'Indie Flower', cursive;
-            font-family: 'Cabin', sans-serif;
+            font-family: 'Cabin', sans-serif; */
         }
 
         div.container {
