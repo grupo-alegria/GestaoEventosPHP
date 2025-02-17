@@ -14,7 +14,7 @@
 
         .sold-out {
             position: absolute;
-            top: 25px;
+            top: 30px;
             left: 80px;
             background: red;
             color: white;

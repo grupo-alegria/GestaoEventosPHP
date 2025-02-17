@@ -136,8 +136,18 @@ class ParticipanteController extends Controller
 
         // Definir participante_id como NULL para "liberar" o ingresso
         $ingresso->participante_id = null;
+        $ingresso->status = 'Não pago';
         $ingresso->save();
 
         return redirect()->back()->with('success', 'Ingresso cancelado com sucesso.');
+    }
+
+    public function pagarIngresso($id)
+    {
+        $ingresso = Ingresso::findOrFail($id);
+        $ingresso->status = 'Pago';
+        $ingresso->save();
+
+        return redirect()->back()->with('success', 'Ingresso marcado como pago!');
     }
 }

@@ -11,6 +11,7 @@ class Ingresso extends Model
     protected $fillable = [
         'tipo',
         'valor',
+        'status',
         'participante_id',
         'evento_id'
     ];

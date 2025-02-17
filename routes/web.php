@@ -98,6 +98,9 @@ Route::get('/eventos/index/{id}', [EventoController::class, 'index'])->name('eve
 //Cadastrar Participante no ingresso
 Route::put('/comprar-ingresso/{eventoId}/{participanteId}', [ParticipanteController::class, 'comprarIngresso'])->name('participante.comprarIngresso');
 
-//Excluir participante do ingresso
+//Excluir Participante do Ingresso
 Route::put('/participante/cancelar-ingresso/{id}/{participanteId}', [ParticipanteController::class, 'cancelarIngresso'])
     ->name('participante.cancelarIngresso');
+
+//Pagar Ingresso Participante
+Route::post('/participante/pagar-ingresso/{id}', [ParticipanteController::class, 'pagarIngresso'])->name('participante.pagarIngresso');

@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('tipo');
             $table->decimal('valor');
+            $table->string('status');
             $table->foreignId('participante_id')->nullable()->constrained()->onDelete('cascade');
             $table->foreignId('evento_id')->constrained()->onDelete('cascade');
             $table->timestamps();

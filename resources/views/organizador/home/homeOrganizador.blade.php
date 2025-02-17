@@ -245,10 +245,10 @@
                             @php
                             // Definir a imagem com base no tipo do evento
                             $imagemEvento = match($evento->tipo) {
-                                'Show' => 'show1.png',
-                                'Festas' => 'festas.jpg',
-                                'Campeonatos esportivos' => 'esporte2.png',
-                                default => 'alt3.png',
+                            'Show' => 'show1.png',
+                            'Festas' => 'festas.jpg',
+                            'Campeonatos esportivos' => 'esporte2.png',
+                            default => 'alt3.png',
                             };
                             @endphp
                             <img class="card-img-top" src="{{ asset('images/events/' . $imagemEvento) }}" alt="{{ $evento->nome }}">

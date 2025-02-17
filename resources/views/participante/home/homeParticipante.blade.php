@@ -168,6 +168,7 @@
 
         .container .item .tickets,
         .booked,
+        .pay,
         .cancel {
             color: #fff;
             padding: 6px 14px;
@@ -243,7 +244,9 @@
                             👤 Bem-vindo, {{ $participante->nome }}
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <li><a href="{{ route('participante.edit', $participante->id) }}" class="dropdown-item">Editar Perfil</a></li>
+                            <li><a href="{{ route('participante.edit', $participante->id) }}" class="dropdown-item">
+                                    Editar Perfil
+                                </a></li>
                             <li>
                                 <form action="{{ route('logout') }}" method="POST">
                                     @csrf
@@ -326,7 +329,13 @@
                             </div>
 
                             <div class="fix"></div>
-                            <button class="booked">Confirmado</button>
+                            @if($ingresso->status == 'Não pago')
+                            <button class="pay btn-warning" data-bs-toggle="modal" data-bs-target="#qrcodeModal-{{ $ingresso->id }}">
+                                A Pagar
+                            </button>
+                            @else
+                            <button class="booked btn-success">Pago</button>
+                            @endif
 
                             <button type="button" class="cancel btn btn-danger mb-2" data-bs-toggle="modal" data-bs-target="#cancelModal-{{ $ingresso->id }}">
                                 Cancelar
@@ -349,6 +358,30 @@
                                                 @csrf
                                                 @method('PUT')
                                                 <button type="submit" class="btn btn-danger">Sim, Cancelar</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- MODAL QR CODE -->
+                            <div class="modal fade" id="qrcodeModal-{{ $ingresso->id }}" tabindex="-1" aria-labelledby="qrcodeModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="qrcodeModalLabel">Pagamento do Ingresso</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body text-center">
+                                            <p>Escaneie o QR Code para realizar o pagamento:</p>
+                                            <!-- QR Code falso -->
+                                            <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://www.youtube.com/watch?v=hNeKo_hlB5w" alt="QR Code" class="img-fluid">
+                                        </div>
+                                        <div class="modal-footer">
+                                            <!-- Formulário para marcar como pago -->
+                                            <form action="{{ route('participante.pagarIngresso', $ingresso->id) }}" method="POST">
+                                                @csrf
+                                                <button type="submit" class="btn btn-success">Ingresso Pago</button>
                                             </form>
                                         </div>
                                     </div>

@@ -61,6 +61,7 @@ class EventoController extends Controller
                 'evento_id' => $evento->id,
                 'tipo' => $request->tipo,
                 'valor' => $request->valor,
+                'status' => 'Não pago',
                 'participante_id' => null,
             ]);
         }
