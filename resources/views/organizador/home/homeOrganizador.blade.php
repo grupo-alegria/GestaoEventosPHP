@@ -7,6 +7,7 @@
     <title>Painel do Participante</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Cabin|Indie+Flower|Inknut+Antiqua|Lora|Ravi+Prakash" rel="stylesheet">
     <style>
         .header {
             background-color: rgb(42, 41, 39);
@@ -238,7 +239,7 @@
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="bandname -bold">{{ $evento->nome }}</div>
                                 <a type="button" data-bs-toggle="modal" data-bs-target="#eventoModal-{{ $evento->id }}">
-                                    <i class="fa fa-eye view-details" aria-hidden="true"></i>
+                                    <i class="fa fa-edit view-details" aria-hidden="true"></i>
                                 </a>
                             </div>
                             <div class="tourname">{{ $evento->tipo }}</div>
@@ -302,16 +303,16 @@
                                     <input type="date" class="form-control" name="data" value="{{ $evento->data }}">
                                 </div>
                                 <div class="d-flex justify-content-between">
-                                    <form action="{{ route('eventos.update', $evento->id) }}" method="POST">
-                                        @csrf
-                                        @method('PUT')
-                                        <button type="submit" class="btn btn-success">Salvar Alterações</button>
-                                    </form>
-
                                     <form action="{{ route('eventos.destroy', $evento->id) }}" method="POST">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-danger">Excluir Evento</button>
+                                    </form>
+
+                                    <form action="{{ route('eventos.update', $evento->id) }}" method="POST">
+                                        @csrf
+                                        @method('PUT')
+                                        <button type="submit" class="btn btn-success">Salvar Alterações</button>
                                     </form>
                                 </div>
                             </form>
