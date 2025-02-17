@@ -26,7 +26,7 @@
             @csrf
 
             <div class="mb-3">
-                <label for="nome" class="form-label">Nome da Festa</label>
+                <label for="nome" class="form-label">Nome do Evento</label>
                 <input type="text" name="nome" id="nome" class="form-control" value="{{ old('nome') }}" required>
             </div>
 
