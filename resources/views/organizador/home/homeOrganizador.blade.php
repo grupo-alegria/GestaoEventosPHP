@@ -176,7 +176,7 @@
             <div class="col-md-4 ms-auto text-md-end mt-3">
                 <div class="dropdown">
                     <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="fa fa-user" aria-hidden="true"></i> Bem-vindo, {{ $organizador->nome }}
+                        <i class="fa fa-user" aria-hidden="true"></i> Bem-vindo, {{ $organizador->nome }}
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                         <li><a href="{{ route('organizador.edit', $organizador->id) }}" class="dropdown-item">Editar Perfil</a></li>
@@ -283,43 +283,45 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
                         </div>
                         <div class="modal-body">
+                            <!-- Formulário de edição -->
                             <form action="{{ route('eventos.update', $evento->id) }}" method="POST">
                                 @csrf
                                 @method('PUT')
+
                                 <div class="mb-3">
                                     <label class="form-label">Nome do Evento</label>
-                                    <input type="text" class="form-control" name="nome" value="{{ $evento->nome }}">
+                                    <input type="text" class="form-control" name="nome" value="{{ $evento->nome }}" required>
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label">Descrição</label>
-                                    <textarea class="form-control" name="descricao">{{ $evento->descricao }}</textarea>
+                                    <textarea class="form-control" name="descricao" required>{{ $evento->descricao }}</textarea>
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label">Valor Ingresso</label>
-                                    <input type="number" class="form-control" name="valor" value="{{ $evento->valor }}">
+                                    <input type="number" class="form-control" name="valor" value="{{ $evento->valor }}" required>
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label">Data</label>
-                                    <input type="date" class="form-control" name="data" value="{{ $evento->data }}">
+                                    <input type="date" class="form-control" name="data" value="{{ $evento->data }}" required>
                                 </div>
-                                <div class="d-flex justify-content-between">
-                                    <form action="{{ route('eventos.destroy', $evento->id) }}" method="POST">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-danger">Excluir Evento</button>
-                                    </form>
 
-                                    <form action="{{ route('eventos.update', $evento->id) }}" method="POST">
-                                        @csrf
-                                        @method('PUT')
-                                        <button type="submit" class="btn btn-success">Salvar Alterações</button>
-                                    </form>
-                                </div>
+                                <!-- Botão de salvar alterações -->
+                                <button type="submit" class="btn btn-success w-100">Salvar Alterações</button>
+                            </form>
+
+                            <hr> <!-- Apenas para separar visualmente -->
+
+                            <!-- Formulário de exclusão separado -->
+                            <form action="{{ route('eventos.destroy', $evento->id) }}" method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger w-100">Excluir Evento</button>
                             </form>
                         </div>
                     </div>
                 </div>
             </div>
+
             @endforeach
         </div>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

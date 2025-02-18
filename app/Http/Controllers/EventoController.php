@@ -83,25 +83,30 @@ class EventoController extends Controller
     {
         // Validação dos dados (opcional, mas recomendado)
         $request->validate([
-            'nome' => 'required|min:3',
-            'descricao' => 'required',
-            'valor' => 'required|numeric',
+            'nome' => 'required|string',
+            'descricao' => 'required|string|max:1000',
+            'valor' => 'required|numeric|min:0',
             'data' => 'required|date',
         ]);
 
         // Busca o evento pelo ID
-        $evento = Evento::findOrFail($id);
+        $evento = Evento::find($id);
 
-        // Atualiza os dados do evento
-        $evento->update([
-            'nome' => $request->nome,
-            'descricao' => $request->descricao,
-            'valor' => $request->valor,
-            'data' => $request->data,
-        ]);
+        if ($evento) {
+            // Atualiza os dados do evento
+            $evento->update([
+                'nome' => $request->nome,
+                'descricao' => $request->descricao,
+                'valor' => $request->valor,
+                'data' => $request->data,
+            ]);
+            $evento->ingressos()->update(['valor' => $request->valor]);
 
-        // Redireciona para a lista de eventos com uma mensagem de sucesso
-        return redirect()->route('organizador.home')->with('success', 'Evento atualizado com sucesso!');
+            return redirect()->route('organizador.home')->with('success', 'Evento atualizado com sucesso!');
+        }
+
+
+        return redirect()->route('organizador.home')->with('error', 'Evento não foi atualizado!');
     }
 
     public function destroy($id)
