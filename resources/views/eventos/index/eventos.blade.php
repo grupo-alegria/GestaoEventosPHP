@@ -55,7 +55,7 @@
         }
 
         body {
-            background-image: linear-gradient(-45deg, rgb(170, 160, 139), rgb(42, 41, 39));
+            background: linear-gradient(135deg,rgb(109, 93, 65), #2e2e2e);
             min-height: calc(100vh - 40px);
             font-family: 'Lato', sans-serif;
 
