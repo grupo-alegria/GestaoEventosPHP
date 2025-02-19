@@ -39,6 +39,10 @@ class OrganizadorController extends Controller
             'senha' => 'required|min:6',
         ]);
 
+        if (!$request->cnpj && !$request->cpf) {
+            return back()->withErrors(['cpf_cnpj' => 'Preencha pelo menos o CPF ou o CNPJ.'])->withInput();
+        }
+
         // Criando o registro no banco de dados
         $organizador = Organizador::create([
             'nome' => $request->nome,
@@ -54,7 +58,7 @@ class OrganizadorController extends Controller
         // Redirecionar para a home do organizador
         return redirect()->route('organizador.home')->with('success', 'Cadastro realizado com sucesso!');
     }
-    
+
     public function edit()
     {
         $organizador = Auth::guard('organizador')->user();

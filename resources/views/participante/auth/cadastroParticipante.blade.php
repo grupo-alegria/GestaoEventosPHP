@@ -65,11 +65,11 @@
                     </div>
                     <div class="col-md-10 mx-auto mb-2">
                         <label class="form-label text-white" style="font-size: 0.875rem;">CPF</label>
-                        <input type="text" name="cpf" class="form-control form-control-sm" pattern="\d{3}\.\d{3}\.\d{3}-\d{2}" placeholder="000.000.000-00">
+                        <input type="text" name="cpf" class="form-control form-control-sm" pattern="\d{3}\.\d{3}\.\d{3}-\d{2}" placeholder="000.000.000-00" required>
                     </div>
                     <div class="col-md-10 mx-auto mb-2">
                         <label class="form-label text-white" style="font-size: 0.875rem;">Data</label>
-                        <input type="date" name="dataNasc" class="form-control form-control-sm">
+                        <input type="date" name="dataNasc" class="form-control form-control-sm" required>
                     </div>
                     <div class="col-md-10 mx-auto mb-2">
                         <label class="form-label text-white" style="font-size: 0.875rem;">Email</label>
@@ -81,6 +81,7 @@
                     </div>
                     <div class="col-md-6 mx-auto d-flex justify-content-center">
                         <button type="submit" class="btn btn-custom btn-sm w-100">Cadastrar</button>
+                        <a href="{{ route('home') }}" class="text-white ms-5"> Voltar </a>
                     </div>
                 </form>
             </div>

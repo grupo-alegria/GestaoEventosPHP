@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,8 +8,10 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
-            background: linear-gradient(to bottom,rgb(139, 100, 21),rgb(53, 47, 41)); /* Gradiente de roxo para azul */
-            height: 100vh; /* Garantir que o fundo cubra toda a altura da tela */
+            background: linear-gradient(to bottom, rgb(139, 100, 21), rgb(53, 47, 41));
+            /* Gradiente de roxo para azul */
+            height: 100vh;
+            /* Garantir que o fundo cubra toda a altura da tela */
             margin: 0;
         }
 
@@ -17,13 +20,13 @@
             color: white;
             box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
             padding: 20px;
-            border-radius: 30px; 
+            border-radius: 30px;
         }
 
         .btn-custom {
             background-color: rgb(155, 116, 38);
             color: white;
-            
+
         }
 
         .btn-custom:hover {
@@ -33,8 +36,21 @@
         }
     </style>
 </head>
+
 <body>
+    <div class="position-relative">
+        @if ($errors->any())
+        <div class="alert alert-danger position-absolute top-0 start-50 translate-middle-x w-75 text-center shadow" style="z-index: 1050; font-size: 0.875rem;">
+            <ul class="mb-0">
+                @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+        @endif
+    </div>
     <div class="container d-flex justify-content-center align-items-center vh-100">
+
         <div class="card shadow p-0 d-flex flex-row" style="width: 90%; max-width: 1200px; height: 500px;">
             <!-- Coluna da imagem com uma div auxiliar -->
             <div class="w-50" style="position: relative; height: 100%; overflow: hidden;">
@@ -46,15 +62,6 @@
             <!-- Coluna do formulário -->
             <div class="w-50 p-3">
                 <h2 class="mb-2 mt-2 text-center mb-3 text-white">Cadastro do Organizador</h2>
-                @if ($errors->any())
-                    <div class="alert alert-danger" style="font-size: 0.875rem;">
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
                 <form action="{{ route('organizador.store') }}" method="POST">
                     @csrf
                     <div class="col-md-10 mx-auto mb-2">
@@ -79,10 +86,12 @@
                     </div>
                     <div class="col-md-6 mx-auto d-flex justify-content-center">
                         <button type="submit" class="btn btn-custom btn-sm w-100">Cadastrar</button>
+                        <a href="{{ route('home') }}" class="text-white ms-5"> Voltar </a>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 </body>
+
 </html>

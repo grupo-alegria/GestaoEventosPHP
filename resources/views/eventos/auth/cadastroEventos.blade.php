@@ -35,7 +35,6 @@
     <div class="container py-5" style="min-height: 100vh">
         <div class="card shadow-lg p-4">
             <h2 class="mb-4 text-center">Criar Novo Evento</h2>
-
             @if ($errors->any())
             <div class="alert alert-danger">
                 <ul class="mb-0">
@@ -45,7 +44,6 @@
                 </ul>
             </div>
             @endif
-
             <form action="{{ route('eventos.store') }}" method="POST" class="needs-validation" novalidate>
                 @csrf
 

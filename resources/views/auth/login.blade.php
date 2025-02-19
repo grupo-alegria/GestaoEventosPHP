@@ -66,8 +66,6 @@
                                     <button type="submit" class="btn btn-warning text-white">Entrar</button>
                                 </div>
                             </form>
-
-                            <!-- Link para Cadastro -->
                             <div class="mt-3 text-center">
                                 <a href="{{ route('home') }}" class="text-white"> Voltar </a>
                             </div>
